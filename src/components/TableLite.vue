@@ -165,9 +165,9 @@
                         <div v-if="hasGroupToggle" class="animation">
                           <a
                             :ref="(el) => (toggleButtonRefs[groupingIndex] = el)"
-                            class="cursor-pointer"
+                            class="cursor-pointer fas fa-chevron-down"
                             @click.prevent="toggleGroup(groupingIndex)"
-                            >▼</a
+                            ></a
                           >
                         </div>
                         <div

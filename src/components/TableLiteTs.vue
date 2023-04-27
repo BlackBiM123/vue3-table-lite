@@ -80,9 +80,9 @@
                         <div v-if="hasGroupToggle" class="animation">
                           <a
                             :ref="(el: any) => (toggleButtonRefs[groupingIndex] as any) = el"
-                            class="cursor-pointer"
+                            class="cursor-pointer fas fa-chevron-down"
                             @click.prevent="toggleGroup(groupingIndex.toString())"
-                            >▼</a
+                            ></a
                           >
                         </div>
                         <div
@@ -166,9 +166,9 @@
                         <div v-if="hasGroupToggle" class="animation">
                           <a
                             :ref="(el: any) => (toggleButtonRefs[groupingIndex] as any) = el"
-                            class="cursor-pointer"
+                            class="cursor-pointer fas fa-chevron-down"
                             @click.prevent="toggleGroup(groupingIndex.toString())"
-                            >▼</a
+                            ></a
                           >
                         </div>
                         <div
