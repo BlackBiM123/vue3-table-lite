@@ -79,9 +79,9 @@
                         <div v-if="hasGroupToggle" class="animation">
                           <a
                             :ref="(el) => (toggleButtonRefs[groupingIndex] = el)"
-                            class="cursor-pointer"
+                            class="cursor-pointer fas fa-chevron-down"
                             @click.prevent="toggleGroup(groupingIndex)"
-                            >▼</a
+                            ></a
                           >
                         </div>
                         <div
@@ -978,8 +978,8 @@ export default defineComponent({
 
     /**
      * Add hover class to tr
-     * 
-     * @param {MouseEvent} mouseEvent 
+     *
+     * @param {MouseEvent} mouseEvent
      */
      const addHoverClassToTr = (mouseEvent) => {
       mouseEvent.target.classList.add("hover");
@@ -987,8 +987,8 @@ export default defineComponent({
 
     /**
      * Remove hover class from tr
-     * 
-     * @param {MouseEvent} mouseEvent 
+     *
+     * @param {MouseEvent} mouseEvent
      */
     const removeHoverClassFromTr = (mouseEvent) => {
       mouseEvent.target.classList.remove("hover");
