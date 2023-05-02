@@ -108,8 +108,7 @@
                     :class="
                       typeof rowClasses === 'function' ? rowClasses(row) : rowClasses
                     "
-                    @mouseenter="addHoverClassToTr"
-                    @mouseleave="removeHoverClassFromTr"
+
                     @click="$emit('row-clicked', row)"
                 >
                   <td v-if="hasCheckbox" class="vtl-tbody-td vtl-checkbox-td">
@@ -191,8 +190,7 @@
                     :class="
                       typeof rowClasses === 'function' ? rowClasses(row) : rowClasses
                     "
-                    @mouseenter="addHoverClassToTr"
-                    @mouseleave="removeHoverClassFromTr"
+
                     @click="$emit('row-clicked', row)"
                 >
                   <td v-if="hasCheckbox" class="vtl-tbody-td vtl-checkbox-td">
@@ -216,11 +214,12 @@
                       class="vtl-tbody-td"
                       :class="col.columnClasses"
                       :style="col.columnStyles"
+                      @click="$emit('td-clicked', col, row)"
                   >
                     <div v-if="col.display" v-html="col.display(row)"></div>
                     <div v-else>
                       <div v-if="setting.isSlotMode && slots[col.field]">
-                        <slot :name="col.field" :value="row"></slot>
+                        <slot :name="col.field" :value="{col, row}"></slot>
                       </div>
                       <span v-else>{{ row[col.field] }}</span>
                     </div>
@@ -360,6 +359,7 @@ export default defineComponent({
     "is-finished",
     "get-now-page",
     "row-clicked",
+    "td-clicked",
     "group-label-update",
     "row-toggled",
   ],
@@ -991,24 +991,6 @@ export default defineComponent({
     }
 
     /**
-     * Add hover class to tr
-     *
-     * @param {MouseEvent} mouseEvent
-     */
-    const addHoverClassToTr = (mouseEvent) => {
-      mouseEvent.target.classList.add("hover");
-    };
-
-    /**
-     * Remove hover class from tr
-     *
-     * @param {MouseEvent} mouseEvent
-     */
-    const removeHoverClassFromTr = (mouseEvent) => {
-      mouseEvent.target.classList.remove("hover");
-    };
-
-    /**
      * 組件掛載後事件 (Mounted Event)
      */
     onMounted(() => {
@@ -1040,9 +1022,7 @@ export default defineComponent({
       toggleGroup,
       labelEdit,
       infoReset,
-      labelUpdate,
-      addHoverClassToTr,
-      removeHoverClassFromTr,
+      labelUpdate
     };
   },
 });
@@ -1178,11 +1158,6 @@ tr {
   vertical-align: top;
   border-top: 1px solid #dee2e6;
   vertical-align: middle;
-}
-
-.vtl-table-hover tbody tr:hover {
-  color: #212529;
-  background-color: #ececec;
 }
 
 .vtl-table-responsive {
