@@ -10,11 +10,13 @@
             'fixed-first-second-column': isFixedFirstColumn && hasCheckbox,
           }"
         >
-          <div v-if="isLoading" class="vtl-loading-mask">
-            <div class="vtl-loading-content">
-              <span style="color: white">Loading...</span>
+          <transition name="fade">
+            <div v-if="isLoading" class="vtl-loading-mask">
+              <div class="vtl-loading-content">
+                <span style="color: white">Loading...</span>
+              </div>
             </div>
-          </div>
+          </transition>
           <table
               class="vtl-table vtl-table-hover vtl-table-bordered vtl-table-responsive vtl-table-responsive-sm"
               ref="localTable"
@@ -152,10 +154,11 @@
                   v-for="(rows, groupingIndex) in templateRows"
                   :key="groupingIndex"
               >
-                <tr v-if="groupingKey != ''" class="vtl-tbody-tr vtl-group-tr">
+                <tr v-if="groupingKey != ''" class="vtl-tbody-tr vtl-group-tr" >
                   <td
                       :colspan="hasCheckbox ? columns.length + 1 : columns.length"
                       class="vtl-tbody-td vtl-group-td"
+
                   >
                     <div class="flex label-wrapper">
                       <div v-if="hasGroupToggle" class="animation">
@@ -163,14 +166,14 @@
                             :ref="(el) => (toggleButtonRefs[groupingIndex] = el)"
                             class="cursor-pointer fas fa-chevron-down"
                             @click.prevent="toggleGroup(groupingIndex)"
-                        ></a
-                        >
+                        ></a>
                       </div>
-                      <div class="ml-2 label-container">
+                      <div class="ml-2 label-container d-flex align-items-center">
                         <span class="group-label-toggle" @click="toggleGroup(groupingIndex)">{{groupingDisplay ? groupingDisplay(groupingIndex) : groupingIndex}}</span>
                         <input type="text" v-model="newLabelVal" v-on:keyup.enter="labelUpdate(groupingIndex)" @blur="labelUpdate(groupingIndex)"/>
+                        <i class="fas fa-edit ms-2" @click.prevent="labelEdit($event, groupingIndex, groupingDisplay ? groupingDisplay(groupingIndex) : groupingIndex)"></i>
+                        <span class="filler" @click="toggleGroup(groupingIndex)"></span>
                       </div>
-                      <i class="fas fa-edit ms-2" @click="labelEdit($event, groupingIndex, groupingDisplay ? groupingDisplay(groupingIndex) : groupingIndex)"></i>
                     </div>
                   </td>
                 </tr>
@@ -185,7 +188,7 @@
                       }
                     "
                     :name="'vtl-group-' + groupingIndex"
-                    :key="row[setting.keyColumn] ? row[setting.keyColumn] : i"
+                    :key="row.address ? row.address : row[setting.keyColumn] ? row[setting.keyColumn] : i"
                     class="vtl-tbody-tr"
                     :class="
                       typeof rowClasses === 'function' ? rowClasses(row) : rowClasses
