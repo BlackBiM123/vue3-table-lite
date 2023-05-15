@@ -163,7 +163,7 @@
                   >
                     <div class="flex label-wrapper">
                       <div class="group-checkbox-wrapper">
-                        <input class="form-check-input" type="checkbox" name="group-checkbox" @change="$emit('group-check', checkedGroups)" :value="rows[0]?.group_id || 'no-group'" v-model="checkedGroups">
+                        <input class="form-check-input" type="checkbox" name="group-checkbox" @change="$emit('group-check', checkedGroups, rows[0]?.group_id)" :value="rows[0]?.group_id === null ? null : rows[0]?.group_id" v-model="checkedGroups">
                       </div>
                       <div v-if="hasGroupToggle" class="animation">
                         <a
@@ -368,6 +368,7 @@ export default defineComponent({
     "row-clicked",
     "td-clicked",
     "group-check",
+    "check-groups-change-value",
     "group-label-update",
     "row-toggled",
   ],
@@ -522,6 +523,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    checkedGroupsProp: {
+      type: Array,
+      default: []
+    }
   },
   setup(props, { emit, slots }) {
     let localTable = ref(null);
@@ -544,8 +549,16 @@ export default defineComponent({
     }
 
     let editMode = ref(false),
-        newLabelVal= ref(''),
-        checkedGroups = ref([])
+        newLabelVal= ref('')
+
+    const checkedGroups = computed({
+      get() {
+        return  props.checkedGroupsProp
+      },
+      set(value) {
+        emit('check-groups-change-value', value)
+      }
+    })
 
     // 組件用內部設定值 (Internal set value for components)
     const setting = reactive({
