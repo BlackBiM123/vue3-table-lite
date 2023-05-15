@@ -79,6 +79,7 @@
                   >
                     <div class="flex label-wrapper">
                       <div v-if="hasGroupToggle" class="animation">
+                        <input class="form-check-input" type="checkbox" @change="$emit('group-check', checkedGroups)" :value="groupingKey" v-model="checkedGroups">
                         <a
                             :ref="(el) => (toggleButtonRefs[groupingIndex] = el)"
                             class="cursor-pointer fas fa-chevron-down"
@@ -161,6 +162,9 @@
 
                   >
                     <div class="flex label-wrapper">
+                      <div class="group-checkbox-wrapper">
+                        <input class="form-check-input" type="checkbox" name="group-checkbox" @change="$emit('group-check', checkedGroups)" :value="rows[0]?.group_id || 'no-group'" v-model="checkedGroups">
+                      </div>
                       <div v-if="hasGroupToggle" class="animation">
                         <a
                             :ref="(el) => (toggleButtonRefs[groupingIndex] = el)"
@@ -363,6 +367,7 @@ export default defineComponent({
     "get-now-page",
     "row-clicked",
     "td-clicked",
+    "group-check",
     "group-label-update",
     "row-toggled",
   ],
@@ -539,7 +544,8 @@ export default defineComponent({
     }
 
     let editMode = ref(false),
-        newLabelVal= ref('')
+        newLabelVal= ref(''),
+        checkedGroups = ref([])
 
     // 組件用內部設定值 (Internal set value for components)
     const setting = reactive({
@@ -1013,6 +1019,7 @@ export default defineComponent({
       editMode,
       rowCheckbox,
       checked,
+      checkedGroups,
       clearChecked,
       doSort,
       prevPage,
@@ -1032,6 +1039,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.group-checkbox-wrapper{
+  min-width: 27px;
+  display:flex;
+  justify-content: center;
+  margin-right:5px;
+}
 .group-label-toggle{
   cursor:pointer;
 }
